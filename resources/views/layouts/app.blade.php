@@ -44,6 +44,9 @@
                         class="absolute right-0 mt-2 w-44 bg-white border border-neutral-300 rounded shadow-lg z-50"
                     >
                         <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-neutral-800 hover:bg-neutral-100 text-sm">Dashboard</a>
+                        @if(Auth::user()->is_admin)
+                            <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-neutral-800 hover:bg-neutral-100 text-sm">Admin Dashboard</a>
+                        @endif
                         <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-neutral-800 hover:bg-neutral-100 text-sm">Meine Daten</a>
                         <a href="" class="block px-4 py-2 text-neutral-800 hover:bg-neutral-100 text-sm">Meine Bestellungen</a>
                         <form method="POST" action="{{ route('logout') }}">

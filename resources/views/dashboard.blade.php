@@ -1,26 +1,16 @@
-<x-app-layout>
-    <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Dashboard') }}
-            </h2>
-            <!-- Logout Button -->
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="ml-4 px-4 py-2 bg-red-700 text-white rounded hover:bg-red-800 transition">
-                    Logout
-                </button>
-            </form>
-        </div>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
-        </div>
+@section('title', 'Dashboard')
+
+@section('content')
+    <div class="max-w-xl mx-auto mt-10">
+        <h1 class="text-2xl font-bold mb-6">Willkommen im User Dashboard</h1>
+        <p>Hier findest du deine persönlichen Informationen und Aktionen.</p>
+        <ul class="mt-6 space-y-2 text-left">
+            <li>– Profil bearbeiten</li>
+            <li>– Bestellungen ansehen</li>
+            <li>– Passwort ändern</li>
+            <!-- Füge hier weitere User-Features hinzu -->
+        </ul>
     </div>
-</x-app-layout>
+@endsection

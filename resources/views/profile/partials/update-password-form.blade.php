@@ -18,8 +18,8 @@
             </div>
 
             <div>
-                <x-input-label for="password" value="Neues Passwort" />
-                <x-text-input id="password" name="password" type="password" class="mt-1 block w-full max-w-xl" autocomplete="new-password" />
+                <x-input-label for="new_password" value="Neues Passwort" />
+                <x-text-input id="new_password" name="password" type="password" class="mt-1 block w-full max-w-xl" autocomplete="new-password" />
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
 
@@ -29,7 +29,7 @@
                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
             </div>
 
-            <div class="flex items-center gap-4">
+            <div class="flex flex-col items-center gap-4">
                 <x-primary-button>Passwort speichern</x-primary-button>
                 @if (session('status') === 'password-updated')
                     <p

@@ -28,7 +28,14 @@
 
         <div>
             <x-input-label for="birthdate" value="Geburtsdatum" />
-            <x-text-input id="birthdate" name="birthdate" type="date" class="mt-1 block w-full max-w-xl" required value="{{ old('birthdate', Auth::user()->birthdate) }}" />
+            <x-text-input 
+                id="birthdate" 
+                name="birthdate" 
+                type="date" 
+                class="mt-1 block w-full max-w-xl" 
+                required 
+                value="{{ old('birthdate', Auth::user()->birthdate ? \Illuminate\Support\Carbon::parse(Auth::user()->birthdate)->format('Y-m-d') : '') }}" 
+            />
             <x-input-error :messages="$errors->get('birthdate')" class="mt-2" />
         </div>
 
@@ -38,7 +45,7 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
-        <div class="flex items-center gap-4">
+        <div class="flex flex-col items-center gap-4">
             <x-primary-button>Speichern</x-primary-button>
             @if (session('status') === 'profile-updated')
                 <p

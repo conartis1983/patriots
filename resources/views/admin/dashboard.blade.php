@@ -1,16 +1,17 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Admin Dashboard') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
-                <h3>Willkommen im Admin-Bereich, {{ Auth::user()->first_name }}!</h3>
-                <!-- Hier kommen Admin-Features -->
-            </div>
-        </div>
+@section('title', 'Admin Dashboard')
+
+@section('content')
+    <div class="max-w-xl mx-auto mt-10">
+        <h1 class="text-2xl font-bold mb-6">Admin Dashboard</h1>
+        <p>Willkommen im Admin-Bereich.</p>
+        <ul class="mt-6 space-y-2 text-left">
+            <li>– Nutzerverwaltung</li>
+            <li>– Statistiken</li>
+            <li>– Bestellungen einsehen</li>
+            <li>– Einstellungen für Admins</li>
+            <!-- Füge hier weitere Admin-Features hinzu -->
+        </ul>
     </div>
-</x-app-layout>
+@endsection
