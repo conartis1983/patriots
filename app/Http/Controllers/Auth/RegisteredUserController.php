@@ -33,7 +33,7 @@ class RegisteredUserController extends Controller
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'phone' => ['nullable', 'string', 'max:30'],
-            'birthdate' => ['required', 'date'],
+            'birthdate' => ['nullable', 'date'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
@@ -45,6 +45,13 @@ class RegisteredUserController extends Controller
             'birthdate' => $request->birthdate,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+        ]);
+
+        // Membership fee für aktuelles Jahr sofort anlegen (paid und not_needed auf false)
+        $user->membershipFees()->create([
+            'year' => now()->year,
+            'paid' => false,
+            'not_needed' => false,
         ]);
 
         event(new Registered($user));
