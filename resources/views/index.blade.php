@@ -4,7 +4,7 @@
 
 @section('content')
     <h1 class="text-4xl md:text-6xl font-extrabold text-neutral-900 mb-4 drop-shadow">
-        <span class="text-neutral-700">Willkommen bei <span class="text-red-700">Patriots</span> Österreich!</span>
+        <span class="text-neutral-700">Willkommen bei den <span class="text-red-700">Patriots</span> Österreich!</span>
     </h1>
     <p class="text-lg text-neutral-700 mb-8 max-w-xl">
        est. 1998<br>

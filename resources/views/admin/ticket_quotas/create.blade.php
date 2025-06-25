@@ -8,15 +8,15 @@
         <h2 class="text-xl font-bold mb-6">Ticketkontingent anlegen</h2>
 
         @if(session('success'))
-            <div class="mb-4 p-2 bg-green-200 text-green-800 rounded text-xs text-center">
+            <x-alert type="success">
                 {{ session('success') }}
-            </div>
+            </x-alert>
         @endif
 
         @if($errors->any())
-            <div class="mb-4 p-2 bg-red-200 text-red-800 rounded text-xs text-center">
+            <x-alert type="error">
                 {{ $errors->first() }}
-            </div>
+            </x-alert>
         @endif
 
         <form action="{{ route('admin.ticket-quotas.store') }}" method="POST">
@@ -41,6 +41,15 @@
                 <label for="total_tickets" class="block text-xs mb-1">Kontingent (Anzahl Tickets)</label>
                 <input type="number" name="total_tickets" id="total_tickets" class="w-full border px-2 py-1 rounded text-xs" required min="1" value="{{ old('total_tickets') }}">
                 @error('total_tickets')
+                    <div class="text-red-600 text-xs mt-1">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-4">
+                <label for="expires_at" class="block text-xs mb-1">Bestellschluss</label>
+                <input type="date" name="expires_at" id="expires_at" class="w-full border px-2 py-1 rounded text-xs"
+                    required value="{{ old('expires_at') }}">
+                @error('expires_at')
                     <div class="text-red-600 text-xs mt-1">{{ $message }}</div>
                 @enderror
             </div>

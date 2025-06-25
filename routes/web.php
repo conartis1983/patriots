@@ -4,16 +4,26 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TicketOrderController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\MemberController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Middleware\IsAdmin;
 
+// Startseite
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// User Dashboard via Controller (besser für spätere Logik)
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Zentrale Bestellseite
+    Route::get('/my-ticket-orders/create', [TicketOrderController::class, 'create'])->name('ticket-orders.create');
+    Route::post('/my-ticket-orders', [TicketOrderController::class, 'store'])->name('ticket-orders.store');
+
+    // NEU: Meine Bestellungen und Bearbeiten
+    Route::get('/my-ticket-orders', [TicketOrderController::class, 'index'])->name('ticket-orders.index');
+    Route::get('/my-ticket-orders/{order}/edit', [TicketOrderController::class, 'edit'])->name('ticket-orders.edit');
+    Route::put('/my-ticket-orders/{order}', [TicketOrderController::class, 'update'])->name('ticket-orders.update');
 });
 
 // Profil-Routen
@@ -23,7 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Admin-Routen: alles unter /admin, geschützt durch IsAdmin-Middleware
+// Admin-Routen
 Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
 
@@ -32,7 +42,7 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::get('/members/{user}/edit', [MemberController::class, 'edit'])->name('members.edit');
     Route::put('/members/{user}', [MemberController::class, 'update'])->name('members.update');
 
-    // Eventverwaltung (Resource Controller)
+    // Eventverwaltung
     Route::resource('events', EventController::class);
 
     // Ticketkontingente

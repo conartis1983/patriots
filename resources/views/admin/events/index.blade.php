@@ -19,9 +19,9 @@
 
         <div class="overflow-x-auto">
             @if(session('success'))
-                <div class="mb-4 p-2 bg-green-200 text-green-600 rounded text-xs text-center">
+                <x-alert type="success">
                     {{ session('success') }}
-                </div>
+                </x-alert>
             @endif
             <table id="eventsTable" class="min-w-full bg-white shadow rounded text-xs">
                 <thead>

@@ -20,29 +20,51 @@
     </div>
 
     @if(session('success'))
-        <div class="mb-4 p-2 bg-green-200 text-green-600 rounded text-xs">
+        <x-alert type="success">
             {{ session('success') }}
-        </div>
+        </x-alert>
     @endif
 
     <div class="overflow-x-auto">
-        <table class="min-w-full bg-white shadow rounded text-xs">
+        <table class="min-w-full bg-white shadow rounded text-xs" id="ticketQuotaTable">
             <thead>
                 <tr>
                     <th class="px-2 py-1 border-b">Event</th>
-                    <th class="px-2 py-1 border-b">Kontingent</th>
-                    <th class="px-2 py-1 border-b">€ Mitglied</th>
-                    <th class="px-2 py-1 border-b">€ Nicht-Mitglied</th>
-                    <th class="px-2 py-1 border-b">Fanclub-Anreise</th>
-                    <th class="px-2 py-1 border-b">Preis Anreise</th>
-                    <th class="px-2 py-1 border-b">Aktionen</th>
+                    <th class="px-2 py-1 border-b text-center">Kontingent</th>
+                    <th class="px-2 py-1 border-b text-center">Bestellschluss</th>
+                    <th class="px-2 py-1 border-b text-center">Status</th>
+                    <th class="px-2 py-1 border-b text-right">€ Mitglied</th>
+                    <th class="px-2 py-1 border-b text-right">€ Nicht-Mitglied</th>
+                    <th class="px-2 py-1 border-b text-center">Fanclub-Anreise</th>
+                    <th class="px-2 py-1 border-b text-right">Preis Anreise</th>
+                    <th class="px-2 py-1 border-b text-center">Aktionen</th>
                 </tr>
             </thead>
             <tbody>
             @forelse($ticketQuotas as $quota)
+                @php
+                    $today = \Carbon\Carbon::today();
+                    $expiresAt = $quota->expires_at ? \Carbon\Carbon::parse($quota->expires_at) : null;
+                    // Für Status "aufgebraucht": Passe die nächste Zeile an, wenn du eine Buchungen-Relation hast!
+                    $usedTickets = $quota->used_tickets ?? 0; // Setze dies ggf. durch Relation/Tabelle
+                    $isSoldOut = ($usedTickets >= $quota->total_tickets);
+                    $isClosed = $expiresAt && $expiresAt->lt($today);
+                @endphp
                 <tr>
                     <td class="px-2 py-1 border-b">{{ $quota->event->title ?? '—' }}</td>
                     <td class="px-2 py-1 border-b text-center">{{ $quota->total_tickets }}</td>
+                    <td class="px-2 py-1 border-b text-center">
+                        {{ $quota->expires_at ? \Carbon\Carbon::parse($quota->expires_at)->format('d.m.Y') : '—' }}
+                    </td>
+                    <td class="px-2 py-1 border-b text-center">
+                        @if($isSoldOut)
+                            <span class="px-2 py-1 rounded text-red-700 bg-red-100 text-xs">aufgebraucht</span>
+                        @elseif($isClosed)
+                            <span class="px-2 py-1 rounded text-gray-700 bg-gray-100 text-xs">abgeschlossen</span>
+                        @else
+                            <span class="px-2 py-1 rounded text-green-700 bg-green-100 text-xs">aktiv</span>
+                        @endif
+                    </td>
                     <td class="px-2 py-1 border-b text-right">{{ number_format($quota->price_member,2,',','.') }}</td>
                     <td class="px-2 py-1 border-b text-right">{{ number_format($quota->price_non_member,2,',','.') }}</td>
                     <td class="px-2 py-1 border-b text-center">
@@ -72,7 +94,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7" class="px-2 py-4 text-center text-gray-500">Noch keine Ticketkontingente angelegt.</td>
+                    <td colspan="9" class="px-2 py-4 text-center text-gray-500">Noch keine Ticketkontingente angelegt.</td>
                 </tr>
             @endforelse
             </tbody>
@@ -82,4 +104,24 @@
         </div>
     </div>
 </div>
+
+<!-- Live-Suche Script -->
+<script>
+function filterTable() {
+    let input = document.getElementById("searchInput");
+    let filter = input.value.toLowerCase();
+    let table = document.getElementById("ticketQuotaTable");
+    let trs = table.getElementsByTagName("tr");
+    for (let i = 1; i < trs.length; i++) { // Zeile 0 ist thead
+        let tds = trs[i].getElementsByTagName("td");
+        let show = false;
+        for (let j = 0; j < tds.length-1; j++) { // letzte Spalte (Aktionen) ignorieren
+            if (tds[j] && tds[j].innerText.toLowerCase().indexOf(filter) > -1) {
+                show = true;
+            }
+        }
+        trs[i].style.display = show ? "" : "none";
+    }
+}
+</script>
 @endsection

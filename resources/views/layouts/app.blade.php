@@ -58,7 +58,7 @@
                                 <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-neutral-800 hover:bg-neutral-100 text-sm">Admin Dashboard</a>
                             @endif
                             <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-neutral-800 hover:bg-neutral-100 text-sm">Meine Daten</a>
-                            <a href="#" class="block px-4 py-2 text-neutral-800 hover:bg-neutral-100 text-sm">Meine Bestellungen</a>
+                            <a href="{{ route('ticket-orders.index') }}" class="block px-4 py-2 text-neutral-800 hover:bg-neutral-100 text-sm">Meine Bestellungen</a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="w-full text-left block px-4 py-2 text-neutral-800 hover:bg-neutral-100 text-sm">Logout</button>

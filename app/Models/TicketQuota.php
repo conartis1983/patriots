@@ -11,6 +11,7 @@ class TicketQuota extends Model
 
     protected $fillable = [
         'event_id',
+        'expires_at',
         'total_tickets',
         'price_member',
         'price_non_member',
@@ -20,6 +21,11 @@ class TicketQuota extends Model
 
     public function event()
     {
-        return $this->belongsTo(Event::class);
+        return $this->belongsTo(\App\Models\Event::class, 'event_id');
+    }
+
+    public function ticketOrders()
+    {
+        return $this->hasMany(TicketOrder::class);
     }
 }

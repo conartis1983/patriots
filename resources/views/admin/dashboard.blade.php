@@ -15,7 +15,7 @@
                 Events
             </a>
             <a href="{{ route('admin.ticket-quotas.index') }}"
-               class="w-full max-w-xs text-center inline-block px-4 py-2 rounded-lg bg-gray-300 text-gray-500 text-sm font-semibold shadow-md cursor-not-allowed">
+               class="w-full max-w-xs text-center inline-block px-4 py-2 rounded-lg bg-gray-300 text-gray-500 text-sm font-semibold shadow-md transition hover:text-red-700">
                 Ticketkontingente verwalten
             </a>
             <a href="#"

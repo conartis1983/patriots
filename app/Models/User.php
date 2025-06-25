@@ -46,4 +46,12 @@ class User extends Authenticatable implements MustVerifyEmail
             ->where('paid', true)
             ->exists();
     }
+
+    /**
+     * Ticket-Bestellungen des Users.
+     */
+    public function ticketOrders()
+    {
+        return $this->hasMany(\App\Models\TicketOrder::class, 'user_id');
+    }
 }

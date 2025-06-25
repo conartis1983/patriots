@@ -15,6 +15,11 @@ class Event extends Model
         return $this->belongsTo(EventCategory::class, 'event_category_id');
     }
 
+    public function ticketQuotas()
+    {
+        return $this->hasMany(\App\Models\TicketQuota::class);
+    }
+
     public function type()
     {
         return $this->belongsTo(EventType::class, 'event_type_id');
